@@ -1,0 +1,37 @@
+﻿@page
+@model IndexModel
+@using Humanizer
+@using WebApplication1.Extension;
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="mt-5">
+    <a asp-page="/Issues/New" class="w-20 vtn btn-primary m-2">+ Add new</a>
+    @if(Model.Issues.ToList().Count == 0)
+    {
+        <p class="text-center">No data to display</p>
+    }
+    else
+    {
+        <div class="row g-0">
+            @foreach (var issue in Model.Issues.ToList())
+            {
+                <div class="card text-center col-4 p-2">
+                    <div class="card-header">
+                        @issue.IssueType
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-page="/Issues/Detail" asp-route-id="@issue.Id" class="link-dark text-decoration-none">@issue.Title</a>
+                        </h5>
+                        <span class="@issue.Priority.ToCssClass()">@issue.Priority</span>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>@issue.Created.Humanize(utcDate: false)</small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
